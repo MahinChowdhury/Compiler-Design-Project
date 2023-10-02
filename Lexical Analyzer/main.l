@@ -21,13 +21,18 @@ integer             [\+\-]?[0-9]+
 number              ([\+\-]?[0-9]+(([\.][0-9]*)?(e[\+\-]?[0-9]*)?)?)
 string              ([\"].*[\"])
 binary              ("false"|"true")
+math_op             ([\+\-\*\/%])
+ass_op              (\+=|\-=|\*=|\/=|\%=|\&=|\=|\^=|\<<=|\>>=)
+comp_op             (\!=|==|>|<|>=|<=)
+
 variable_dec        ({datatype}[ ]+([ ]*{id}[ ]*([=][ ]*{number})?[ ]*[\,]?)+)
 
 singleline          ([\/][\/][^\n]*)
 multiline           [\/][\*](.*[\n]*)*[\*][\/]
 
-if                  "if"[ ]*[(].+[)][ ]*[{][^{}]*[}]
-else                "else"[ ]*[{][^{}]*[}]
+if                  ("if"[ ]*[(]([ ]*{id}|{number})[ ]*{comp_op}[ ]*({id}|{number})[ ]*[)][ ]*[{][^{}]*[}])
+elif                ("elif"[ ]*[(]([ ]*{id}|{number})[ ]*{comp_op}[ ]*({id}|{number})[ ]*[)][ ]*[{][^{}]*[}])
+else                ("else"[ ]*[{][^{}]*[}])
 
 forloop1            ("for"[ ]*{id}[ ]*"in"[ ]*{id}[ ]*[{][^{}]*[}])
 forloop2            ("for"[ ]*{id}[ ]*"in"[ ]*[(][0-9]*[\,][0-9]*([\,][0-9]*)?[)][ ]*[{][^{}]*[}])
@@ -35,15 +40,12 @@ whileloop           ("while"[ ]*[(].*[)][ ]*[{][^{}]*[}])
 function            ("func"[ ]*{id}[(]({datatype}[ ]*{id}[\,]*)*[)][ ]*[\-][\>][ ]*{datatype}[ ][{][^{}]*[}])
 
 print               ("print"[(]({id}+|{number}|{string}+)+[)])
-eof                 ([\n]|";")
-math_op             ([\+\-\*\/%])
-ass_op              (\+=|\-=|\*=|\/=|\%=|\&=|\=|\^=|\<<=|\>>=)
-comp_op             (\!=|==)
+eof                 [\n]
 logical_op          ("or"|"and"|"xor"|\&&|\|)
 bitwise_op          (&|\|\^|>>|<<)
-inc_op              ("++")
-dec_op              ("--")
-return              ("return")
+unary_op            (({id}("++"|"--"))|(("++"|"--"){id}))
+assignment          ({id}[ ]*{ass_op}[ ]*({id}|{number})[ ]*({math_op}[ ]*({id}|{number}))?)
+return              ("return"([01])?)
 skip_keyword        ("continue"|"break")
 
 %%
@@ -53,7 +55,7 @@ skip_keyword        ("continue"|"break")
 {variable_dec}      {
     
     s=yytext;print("variable declare",s);
-
+    cntKey++;
     vector<string>v;
 
     int pos = 0,len=s.size();
@@ -85,32 +87,30 @@ skip_keyword        ("continue"|"break")
             cout<<"Error : "<<u<<" was initialized before.\n";
         }
         mp[u] = 1;
+        cntId++;
     }
-
 }
-{return}            {s=yytext;print("return keyword",s);}
-{skip_keyword}      {s=yytext;print("skip keyword",s);}
+
+{unary_op}          {s=yytext;print("uanry operator",s);}
+{return}            {s=yytext;print("return keyword",s);cntKey++;}
+{skip_keyword}      {s=yytext;print("skip keyword",s);cntKey++;}
 {binary}            {s=yytext;print("Boolean",s);}
-{datatype}          {s=yytext;print("Datatype",s);}
+{datatype}          {s=yytext;print("Datatype",s);cntKey++;}
 {integer}           {s=yytext;print("Integer",s);}
 {string}            {s=yytext;print("String",s);}
 {number}            {s=yytext;print("Number",s);}
+{assignment}        {s=yytext;print("Assignment",s);}
 {singleline}        {s=yytext;print("Single Line Comment",s);}
 {multiline}         {s=yytext;print("Multi Line Comment",s);}
-{if}                {s=yytext;print("if Condition",s);}
-{else}              {s=yytext;print("else Condition",s);}
-{forloop1}          {s=yytext;print("for loop1",s);}
-{forloop2}          {s=yytext;print("for loop2",s);}
-{whileloop}         {s=yytext;print("while loop",s);}
+{if}                {s=yytext;print("if Condition",s);cntKey++;}
+{elif}              {s=yytext;print("else if Condition",s);cntKey++;}
+{else}              {s=yytext;print("else Condition",s);cntKey++;}
+{forloop1}          {s=yytext;print("for loop1",s);cntKey++;}
+{forloop2}          {s=yytext;print("for loop2",s);cntKey++;}
+{whileloop}         {s=yytext;print("while loop",s);cntKey++;}
 {function}          {s=yytext;print("function",s);}
-{id}                {s=yytext;print("Id",s);}
-{math_op}           {s=yytext;print("math operators",s);}
-{ass_op}            {s=yytext;print("assignment operators",s);}
-{inc_op}            {s=yytext;print("increment operator",s);}
-{dec_op}            {s=yytext;print("decrement operator",s);}
-{print}             {s=yytext;print("print",s);}
-.
-
+{print}             {s=yytext;print("print",s);cntKey++;}
+{eof}               {cntStmt++;}
 %%
 
 int yywrap(){
@@ -123,4 +123,7 @@ int main(){
     cout<<"Evaluation is running... \n";
     yylex();
 
+    cout << "Identifiers : " << cntId << "\n";
+	cout << "Keywords : " << cntKey << "\n";
+	cout << "Statements: " << cntStmt << "\n";
 }

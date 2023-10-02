@@ -1,0 +1,94 @@
+int a
+number b
+bool c
+string d
+char c
+
+250
++250
+-250
+
+3.1416
++3.1416
+-3.1416
+1e9
+6.023e23
++3.14e-9
+
+n = 100
+n += 2
+n /= 2
+n *= 2
+n <<= 1
+n >>= 1
+n %= 10
+
+and
+or
+and
+&
+|
+>>
+<<
+^
+xor
+
+// This is Single Line Comment
+
+/* This is multiline comment 
+
+    First Line
+    Second Line
+
+*/
+
+"This is a String"
+
+int a = 5
+
+if (a == 5) { print(a) }
+else { print(a) }
+
+if(a>5){
+    print(a)
+}
+else{
+    print("Not Equal");
+}
+
+string s = "Hello World"
+char c
+
+for c in s {print(c)}
+
+for c in s{
+    print(c)
+}
+
+for i in (0,10){
+    print(i)
+}
+
+for i in (0,10,1){
+    print(i)
+}
+
+int n = 10
+
+while(n!=0) { n-- }
+while(n!=0){
+    n--
+}
+
+func calc(int a,int b) -> int {
+    
+    int k = a+b
+
+    print(k)
+}
+
+int i = 0 , j , num = 23
+
+int i,j,k
+
+number k=4.0,z

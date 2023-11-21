@@ -1,3 +1,6 @@
+import "stdio.h"
+import "cse2k19.h"
+
 main(){
 
     #This is the main body

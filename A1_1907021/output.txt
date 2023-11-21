@@ -1,0 +1,63 @@
+
+This is a COMMENT
+Declared Int : (a)
+Declared Int : (b)
+Declared Int : (c)
+Declared Int : (d)
+Declared Float: (f)
+Declared String: (str)
+Declared String : (char) and Assigned String Value :  "Mahin"
+Declared Float : (fl) and Assigned Float Value : (2.345600)
+Compilation Error: Variable gh is not declared
+Declared Int : (lab) and Assigned Int Value : (10)
+
+10
+"Hello World"
+Declared Int : (num1) and Assigned Int Value : (23)
+Declared Int : (num2) and Assigned Int Value : (20)
+Declared Int : (res)
+
+Assigned Value : 43
+43
+Declared Int : (m) and Assigned Int Value : (10)
+Declared Int : (n) and Assigned Int Value : (4)
+
+GCD is : 2
+
+Maximum value : 10
+
+Minimum value : 4
+
+17 is a prime number
+Declared Int : (p) and Assigned Int Value : (5)
+Declared Int : (q) and Assigned Int Value : (5)
+
+===>For Loop Incement Working Successfully
+1
+3
+5
+===>Loop executed 3 times
+
+===>For Loop Decrement Working Successfully
+10
+8
+6
+4
+===>Loop executed 4 times
+
+IF condition found
+If condition is false.
+
+Else If condition found
+Else If condition is false.
+
+ELSE condition found
+
+Switch Case found.
+Executed 7 block case!
+
+Function without parameters
+
+Function with parameters
+
+===> Entire Program Executed Successfully
